@@ -40,6 +40,7 @@ var GuardianSchema=new mongoose.Schema({
         relative:{type: mongoose.SchemaTypes.Email}
     },
 });
+var Guardian=mongoose.model("GuardianSchema",GuardianSchema);
 var PersonalSchema=new mongoose.Schema({                                      
     name: String,
     date_of_birth:Date,
@@ -85,30 +86,35 @@ var PersonalSchema=new mongoose.Schema({
     address:{
         type:String,
     },
+    guardianInformation:
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref:"GuardianSchema"
+    }
 });
 var Personal=mongoose.model("PersonalSchema",PersonalSchema);
-var Guardian=mongoose.model("GuardianSchema",GuardianSchema);
 app.get("/register",function(req,res){
     res.render("register.ejs");
 });
 app.post("/register",function(req,res){
     var student_info=req.body;
-    console.log(req.body);
-    Personal.create(student_info,function(err,returnedData){
+    // console.log(req.body);
+    Guardian.create(student_info,function(err,returnedGuardianData){
         if(err){
             console.log(err);
         }else{
-            Guardian.create(student_info,function(err,returnedData){
+            Personal.create(student_info,function(err,returnedPersoanlData){
                 if(err){
-                    console.log(err);
+                    console.log(err)
                 }else{
-                    console.log(returnedData);
-                }    
-            })
-            console.log(returnedData);
-            res.redirect("/register");
+                    returnedPersoanlData.guardianInformation=returnedGuardianData;
+                    returnedPersoanlData.save();
+                    console.log(returnedPersoanlData);
+                    res.render("info.ejs",{personal_info:returnedPersoanlData,guardian_info:returnedGuardianData})
+                }
+            });
         }
-    })
+    });
 });
 app.listen(8080,function(){
     console.log("Server running at 8080")
