@@ -305,7 +305,7 @@
           <div class="form-group">
             <label for="aadhar_no">Aadhar Number:</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="aadhar"
               name="aadhar"
@@ -314,7 +314,7 @@
           <div class="form-group">
             <label for="phone">Phone Number:</label>
             <input
-              type="text"
+              type="number"
               class="form-control"
               id="phone"
               name="phone"
@@ -338,6 +338,95 @@
               id="address"
               name="address"
             />
+          </div>
+          <!-- Guardian Information -->
+          <div class="form-group">
+            <label for="father">Father's Name:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="father"
+              name="father"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="phone.father">Father's Phone Number:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="phone.father"
+              name="phone.father"
+              pattern="[0-9]{10}"
+            />
+          </div>
+          <div class="form-group">
+            <label for="email.father">Father's E-mail:</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email.father"
+              name="email.father"
+            /> 
+          </div>
+          <div class="form-group">
+            <label for="mother">Mother's Name:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="mother"
+              name="mother"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="email.mother">Mother's E-mail:</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email.mother"
+              name="email.mother"
+            /> 
+          </div>
+          <div class="form-group">
+            <label for="phone.mother">Mother's Phone Number:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="phone.mother"
+              name="phone.mother"
+              pattern="[0-9]{10}"
+            />
+          </div>
+          <div class="form-group">
+            <label for="relative">Relative's Name:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="relative"
+              name="relative"
+            />
+          </div>
+          <div class="form-group">
+            <label for="phone.relative">Relative's Phone Number:</label>
+            <input
+              type="text"
+              class="form-control"
+              id="phone.relative"
+              name="phone.relative"
+              pattern="[0-9]{10}"
+            />
+          </div>
+
+
+          <div class="form-group">
+            <label for="email.relative">Relative's E-mail:</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email.relative"
+              name="email.relative"
+            /> 
           </div>
           <button class="btn btn-primary btn-block" type="Submit" for="create">
             Submit
