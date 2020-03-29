@@ -2,10 +2,33 @@ const express=require('express');
 var mongoose=require("mongoose");
 var bodyParser=require('body-parser');
 require('mongoose-type-email');
+const fs=require("file-system");
 mongoose.SchemaTypes.Email.defaults.message = 'Email address is invalid';
 const app=express();
-mongoose.connect("mongodb://localhost:27017/students");
 app.use(bodyParser.urlencoded({extended:true}));
+app.use(express.static(__dirname + '/views'));
+
+// Logging
+
+app.use(function(req,res,next){
+    var date=Date(Date.now()).toString();
+    console.log(date+ ` ${req.method} ${req.originalUrl} \n`);
+    // if(req.originalUrl=="/shop"&&req.method=="POST"){
+    //     console.log(res.body.returnedData);
+    // }
+    fs.appendFile('./log/logs.txt',
+    date + ` ${req.method} ${req.originalUrl} \n`
+    , function(err) {
+        if(!err){
+            next();
+        }
+        else console.log(err);
+    });
+});
+
+// Schemas
+
+mongoose.connect("mongodb://localhost:27017/students");
 var GuardianSchema=new mongoose.Schema({
     father: String,
     mother:String,
@@ -93,6 +116,12 @@ var PersonalSchema=new mongoose.Schema({
     }
 });
 var Personal=mongoose.model("PersonalSchema",PersonalSchema);
+
+// Routes
+
+app.get("/",function(req,res){
+    res.redirect("/register");
+});
 app.get("/register",function(req,res){
     res.render("register.ejs");
 });
@@ -110,7 +139,7 @@ app.post("/register",function(req,res){
                     returnedPersoanlData.guardianInformation=returnedGuardianData;
                     returnedPersoanlData.save();
                     console.log(returnedPersoanlData);
-                    res.render("info.ejs",{personal_info:returnedPersoanlData,guardian_info:returnedGuardianData})
+                    res.status(200).json(returnedPersoanlData);
                 }
             });
         }
